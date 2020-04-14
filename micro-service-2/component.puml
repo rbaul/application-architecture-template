@@ -1,0 +1,105 @@
+@startuml
+skinparam defaultTextAlignment center
+skinparam wrapWidth 200
+skinparam maxMessageSize 150
+skinparam rectangle {
+    StereotypeFontSize 12
+    shadowing false
+}
+skinparam database {
+    StereotypeFontSize 12
+    shadowing false
+}
+skinparam Arrow {
+    Color #666666
+    FontColor #666666
+    FontSize 12
+}
+skinparam rectangle<<boundary>> {
+    Shadowing false
+    StereotypeFontSize 0
+    FontSize 12
+    FontColor #444444
+    BorderColor #444444
+    BorderStyle dashed
+}
+skinparam rectangle<<person>> {
+    StereotypeFontColor #FFFFFF
+    FontColor #FFFFFF
+    BackgroundColor #08427B
+    BorderColor #073B6F
+}
+skinparam rectangle<<external_person>> {
+    StereotypeFontColor #FFFFFF
+    FontColor #FFFFFF
+    BackgroundColor #686868
+    BorderColor #8A8A8A
+}
+skinparam rectangle<<system>> {
+    StereotypeFontColor #FFFFFF
+    FontColor #FFFFFF
+    BackgroundColor #1168BD
+    BorderColor #3C7FC0
+}
+skinparam rectangle<<external_system>> {
+    StereotypeFontColor #FFFFFF
+    FontColor #FFFFFF
+    BackgroundColor #999999
+    BorderColor #8A8A8A
+}
+skinparam database<<system>> {
+    StereotypeFontColor #FFFFFF
+    FontColor #FFFFFF
+    BackgroundColor #1168BD
+    BorderColor #3C7FC0
+}
+skinparam database<<external_system>> {
+    StereotypeFontColor #FFFFFF
+    FontColor #FFFFFF
+    BackgroundColor #999999
+    BorderColor #8A8A8A
+}
+skinparam rectangle<<container>> {
+    StereotypeFontColor #FFFFFF
+    FontColor #FFFFFF
+    BackgroundColor #438DD5
+    BorderColor #3C7FC0
+}
+skinparam database<<container>> {
+    StereotypeFontColor #FFFFFF
+    FontColor #FFFFFF
+    BackgroundColor #438DD5
+    BorderColor #3C7FC0
+}
+top to bottom direction
+hide stereotype
+legend right
+|=              |= Type |
+|<#08427B>      | person |
+|<#686868>      | external person |
+|<#1168BD>   | system |
+|<#999999>      | external system |
+|<#438DD5>   | container |
+endlegend
+title Container diagram for Internet Banking System
+rectangle "==Customer\n\n A customer of the bank, with personal bank accounts" <<person>> as customer
+rectangle "==Internet Banking [System]" <<boundary>> as c1 {
+    rectangle "==Web Application\n//<size:12>[Java, Spring MVC]</size>//\n\n Delivers the static content and the Internet banking SPA" <<container>> as web_app
+    rectangle "==Single-Page App\n//<size:12>[JavaScript, Angular]</size>//\n\n Provides all the Internet banking functionality to cutomers via their web browser" <<container>> as spa
+    rectangle "==Mobile App\n//<size:12>[C#, Xamarin]</size>//\n\n Provides a limited subset of the Internet banking functionality to customers via their mobile device" <<container>> as mobile_app
+    database "==Database\n//<size:12>[SQL Database]</size>//\n\n Stores user registraion information, hased auth credentials, access logs, etc." <<container>> as database
+    rectangle "==API Application\n//<size:12>[Java, Docker Container]</size>//\n\n Provides Internet banking functionality via API" <<container>> as backend_api
+}
+rectangle "==E-Mail System\n\n The internal Microsoft Exchange system" <<external_system>> as email_system
+rectangle "==Mainframe Banking System\n\n Stores all of the core banking information about customers, accounts, transactions, etc." <<external_system>> as banking_system
+customer --> web_app : "===Uses\n//<size:12>[HTTPS]</size>//"
+customer --> spa : "===Uses\n//<size:12>[HTTPS]</size>//"
+customer --> mobile_app : "===Uses"
+web_app -> spa : "===Delivers"
+spa --> backend_api : "===Uses\n//<size:12>[async, JSON/HTTPS]</size>//"
+mobile_app --> backend_api : "===Uses\n//<size:12>[async, JSON/HTTPS]</size>//"
+database <- backend_api : "===Reads from and writes to\n//<size:12>[sync, JDBC]</size>//"
+customer <-- email_system : "===Sends e-mails to"
+email_system <-- backend_api : "===Sends e-mails using\n//<size:12>[sync, SMTP]</size>//"
+backend_api -> banking_system : "===Uses\n//<size:12>[sync/async, XML/HTTPS]</size>//"
+@enduml

@@ -1,0 +1,31 @@
+plugins {
+	id 'java'
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	runtime 'net.sourceforge.plantuml:plantuml:1.2020.6'
+}
+
+task generateSVG(type: JavaExec) {
+	classpath = sourceSets.main.runtimeClasspath
+
+	// 'main' does not need to be specified
+	main = 'net.sourceforge.plantuml.Run'
+
+	// arguments to pass to the application
+	args '**/*.puml', '-o svg', '-tsvg'
+}
+
+task generatePNG(type: JavaExec) {
+	classpath = sourceSets.main.runtimeClasspath
+
+	// 'main' does not need to be specified
+	main = 'net.sourceforge.plantuml.Run'
+
+	// arguments to pass to the application
+	args '**/*.puml', '-o png', '-tpng'
+}
