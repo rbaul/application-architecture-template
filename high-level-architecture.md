@@ -15,6 +15,6 @@ how responsibilities are distributed across them and how the containers communic
 ## Components Architecture
 For each container, a component diagram lets you see the key logical components and their relationships
 
-> ![Micro-Service 1](micro-service-1/README.md)
+> [Micro-Service 1](micro-service-1/README.md)
 
-> ![Micro-Service 2](micro-service-2/README.md)
+> [Micro-Service 2](micro-service-2/README.md)
