@@ -5,9 +5,10 @@ Application architecture template documentation (Markdown)
 > [C4-Model](https://www.mytechiebits.com/C4)
 
 ## Benefits
-> * Define diagrams with plain text (PlantUML) - use code instead of drawing
+> * Define diagrams with plain text (PlantUML) - use code instead of drawing.
 > * Use benefits of Version Control (GitHub/Bitbucket/..), compare difference between versions, approve pull requests and more other...
 ![](demo/branch_compare.PNG) 
+> * Include architecture, flows and other documentation diagrams to development code.
 
 ## Build on
 >* Gradle 6.3
